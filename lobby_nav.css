@@ -1,0 +1,29 @@
+/* Only the lobby's new scroll treatment and navbar selection. */
+.nav-links-wrapper{position:relative;isolation:isolate}
+.nav-menu{position:relative;z-index:1}
+.nav-link{display:block}
+.nav-active-pill{
+ top:0;left:0;z-index:0;height:auto;
+ background:rgba(197,168,128,.16);
+ border:1px solid rgba(197,168,128,.3);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
+ transition:transform .4s cubic-bezier(.16,1,.3,1),width .4s cubic-bezier(.16,1,.3,1),height .4s;
+}
+.nav-link.active,.mobile-link.active{color:var(--gold-light)}
+.nav-booking-btn.active{box-shadow:0 0 0 3px rgba(197,168,128,.2)}
+#sec-lobby .reveal-img{display:block;transform-origin:center;will-change:transform}
+.lobby-scroll-light{
+ position:absolute;inset:0;pointer-events:none;opacity:0;
+ background:linear-gradient(110deg,transparent 15%,rgba(255,222,163,.35) 45%,rgba(255,241,210,.7) 50%,transparent 78%);
+ mix-blend-mode:screen;
+}
+.lobby-scroll-progress{
+ position:absolute;bottom:0;left:0;right:0;height:2px;
+ background:var(--gold-light);transform:scaleX(0);transform-origin:left;
+ pointer-events:none;
+}
+@media(prefers-reduced-motion:reduce){
+ .lobby-scroll-light{display:none}
+ #sec-lobby .reveal-img,#sec-lobby .lobby-text-side{transform:none!important}
+ .nav-active-pill{transition:none}
+}

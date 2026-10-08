@@ -1,0 +1,2295 @@
+/* ==========================================================================
+   AVENTINE RESORT - STORYTELLING LAYOUT (IGLOO.INC STYLE)
+   ========================================================================== */
+
+:root {
+  --bg-primary: #0c0c0e;
+  --bg-secondary: #121216;
+  --bg-card: rgba(20, 20, 25, 0.6);
+  --gold: #c5a880;
+  --gold-light: #e3d3be;
+  --gold-trans: rgba(197, 168, 128, 0.15);
+  --gold-glow: rgba(197, 168, 128, 0.35);
+  --text-main: #faf9f6;
+  --text-muted: rgba(250, 249, 246, 0.6);
+  --text-dark: #0c0c0e;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-glow: 0 20px 45px rgba(0, 0, 0, 0.65);
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-accent: 'Cinzel', serif;
+  --transition-smooth: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.3s ease;
+  --shadow-luxury: 0 35px 70px rgba(0, 0, 0, 0.85);
+
+  /* Day-to-Sunset Ambience Scroll Variables */
+  --sun-y: 15%;
+  --sun-x: 65%;
+  --sky-color-top: #7bb8e7;
+  --sky-color-mid: #bcd2ee;
+  --sky-color-bottom: #f9dfb9;
+  --sun-glow-core: rgba(255, 245, 220, 0.35);
+  --sun-glow-outer: rgba(255, 200, 110, 0.08);
+  --sun-bloom-opacity: 0.45;
+  --sun-rays-opacity: 0.7;
+  --cliff-far-y: 0px;
+  --cliff-near-y: 0px;
+  --cliff-far-color: #1a2230;
+  --cliff-near-color: #0f1520;
+  --ocean-color: #0c1825;
+  --window-reflection-color: rgba(255, 240, 200, 0.12);
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 15px;
+  --shadow-blur: 35px;
+}
+
+[data-theme="night"] {
+  --bg-primary: #020307;
+  --bg-secondary: #05070e;
+  --bg-card: rgba(8, 10, 18, 0.65);
+  --gold: #9e815d;
+  --gold-light: #c0ad97;
+  --gold-trans: rgba(158, 129, 93, 0.12);
+  --gold-glow: rgba(158, 129, 93, 0.28);
+  --text-main: #e2e5ec;
+  --text-muted: rgba(226, 229, 236, 0.5);
+  --glass-bg: rgba(0, 0, 0, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.03);
+  --shadow-luxury: 0 45px 90px rgba(0, 0, 0, 0.95);
+}
+
+/* ==========================================================================
+   RESET & PINNED VIEWPORT
+   ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+
+canvas#ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1; /* Underlay behind storytelling panels */
+}
+
+/* Custom Selection */
+::selection {
+  background: var(--gold-trans);
+  color: var(--gold-light);
+}
+
+/* ==========================================================================
+   CUSTOM SPOTLIGHT & CURSOR
+   ========================================================================== */
+
+.custom-cursor {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background-color: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+}
+
+.custom-cursor.hovered {
+  width: 45px;
+  height: 45px;
+  background-color: rgba(197, 168, 128, 0.12);
+  border: 1px solid var(--gold);
+}
+
+.cursor-spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(197, 168, 128, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor, .cursor-spotlight {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   CINEMATIC PRELOADER
+   ========================================================================== */
+
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #050507;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.loader-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loader-monogram {
+  width: 85px;
+  height: 85px;
+  margin-bottom: 25px;
+  animation: float-logo 4s ease-in-out infinite;
+}
+
+.loader-title {
+  font-family: var(--font-accent);
+  font-size: 30px;
+  letter-spacing: 0.5em;
+  color: var(--text-main);
+  margin-bottom: 6px;
+  text-indent: 0.5em;
+}
+
+.loader-subtitle {
+  font-size: 9px;
+  letter-spacing: 0.8em;
+  color: var(--gold);
+  text-indent: 0.8em;
+  margin-bottom: 35px;
+}
+
+.loader-progress-wrap {
+  width: 180px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.loader-progress-bar {
+  width: 0;
+  height: 100%;
+  background: var(--gold);
+}
+
+.loader-percentage {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+@keyframes float-logo {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ==========================================================================
+   VISIONOS CAP SULE NAVIGATION
+   ========================================================================== */
+
+.vision-nav {
+  position: fixed;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.nav-glass-container {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1100px;
+  padding: 10px 24px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 40px;
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  box-shadow: var(--glass-glow);
+  transition: var(--transition-smooth);
+}
+
+.nav-glass-container:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.nav-logo a {
+  font-family: var(--font-accent);
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0.25em;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 6px;
+}
+
+.nav-link {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 20px;
+  transition: var(--transition-fast);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--text-main);
+}
+
+/* Highlighter active pill behind links */
+.nav-active-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: -1;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: none;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-control-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.nav-control-icon:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nav-booking-btn {
+  text-decoration: none;
+  background: var(--gold);
+  color: var(--text-dark);
+  font-weight: 500;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+
+.nav-booking-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+/* Mobile triggers */
+.mobile-menu-trigger {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+
+.mobile-menu-trigger .line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--text-main);
+}
+
+.mobile-nav-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.mobile-drawer-glass {
+  width: 100%;
+  height: 100%;
+  background: rgba(12, 12, 14, 0.97);
+  backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-menu-list {
+  list-style: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.mobile-link {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.mobile-link.font-accent {
+  color: var(--gold);
+  font-family: var(--font-accent);
+}
+
+.mobile-nav-drawer.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   VERTICAL STEP PROGRESS SIDEBAR (IGLOO STYLE)
+   ========================================================================== */
+
+.step-indicator-bar {
+  position: fixed;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 990;
+}
+
+.step-indicator-track {
+  position: relative;
+  width: 2px;
+  height: 320px;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.step-indicator-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: var(--gold);
+  transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.step-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  z-index: 5;
+  transition: var(--transition-fast);
+}
+
+.step-dot:hover,
+.step-dot.active {
+  background: var(--gold);
+  transform: scale(1.4);
+}
+
+.step-dot.active {
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+.step-num {
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: var(--text-muted);
+  opacity: 0;
+  transition: var(--transition-fast);
+}
+
+.step-label {
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition-fast);
+}
+
+.step-dot:hover .step-num,
+.step-dot:hover .step-label {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   FIXED PANELS ENGINE
+   ========================================================================== */
+
+.story-viewport {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.story-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 8%;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.story-panel.active-panel {
+  z-index: 15;
+}
+
+/* Pinned Overlay Cards Peels (Igloo sheets) */
+.peel-panel {
+  transform: translateY(100vh);
+  border-top-left-radius: 120px;
+  border-top-right-radius: 120px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-primary);
+  box-shadow: 0 -25px 60px rgba(0, 0, 0, 0.7);
+  z-index: 20;
+}
+
+.section-badge {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 18px;
+}
+
+/* ==========================================================================
+   STEP 1: HERO & AVENTINE PORTAL LENS
+   ========================================================================== */
+
+.hero-video-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 20%, rgba(12, 12, 14, 0.6) 100%);
+}
+
+.hero-content {
+  text-align: center;
+  z-index: 12;
+  margin: 0 auto;
+}
+
+.hero-subtitle {
+  font-size: 12px;
+  letter-spacing: 0.6em;
+  margin-bottom: 20px;
+  color: var(--gold-light);
+  font-weight: 400;
+}
+
+.hero-title {
+  font-family: var(--font-accent);
+  font-size: 8.5vw;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-indent: 0.35em;
+  margin-bottom: 30px;
+  line-height: 1;
+}
+
+/* Aventine Lens Morphing circular portal */
+.portal-lens-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.portal-lens {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1.5px solid var(--gold);
+  box-shadow: 0 0 35px var(--gold-glow);
+  transform: scale(0); /* animated by GSAP on scroll */
+}
+
+.portal-inner-scene {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.portal-inner-scene img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.portal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(12, 12, 14, 0.4);
+}
+
+.scroll-indicator {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scroll-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  margin-bottom: 10px;
+  color: var(--text-muted);
+}
+
+.scroll-mouse {
+  width: 20px;
+  height: 32px;
+  border: 1.5px solid var(--text-muted);
+  border-radius: 10px;
+  position: relative;
+}
+
+.scroll-wheel {
+  width: 3px;
+  height: 6px;
+  background-color: var(--gold);
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: mouse-scroll 2s infinite;
+}
+
+@keyframes mouse-scroll {
+  0% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, 10px); }
+}
+
+.hero-blend-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+  z-index: 2;
+}
+
+/* ==========================================================================
+   STEP 2: LOBBY
+   ========================================================================== */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 8%;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.lobby-text-side h2 {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.25;
+  margin-bottom: 22px;
+}
+
+.lobby-text-side p {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  line-height: 1.75;
+  margin-bottom: 35px;
+}
+
+.btn-luxury-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.btn-luxury-arrow i {
+  font-size: 15px;
+  transition: transform 0.3s ease;
+}
+
+.btn-luxury-arrow:hover i {
+  transform: translateX(5px);
+}
+
+.image-reveal-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.reveal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   STEP 3: SUITES
+   ========================================================================== */
+
+#sec-rooms {
+  background-color: var(--bg-secondary);
+}
+
+.suites-header {
+  max-width: 700px;
+  margin-bottom: 60px;
+}
+
+.suites-header h2 {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 300;
+  margin-bottom: 15px;
+}
+
+.suites-header p {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.suite-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.suite-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.suite-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-trans);
+}
+
+.suite-img-wrap {
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+}
+
+.suite-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.suite-card:hover .suite-img-wrap img {
+  transform: scale(1.06);
+}
+
+.suite-hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(12, 12, 14, 0.45), transparent 60%);
+}
+
+.suite-info {
+  padding: 24px;
+}
+
+.suite-info h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.suite-price {
+  font-size: 12.5px;
+  color: var(--gold-light);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+
+.suite-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-mini-explore {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  padding: 9px 0;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-mini-explore:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.btn-mini-select {
+  flex: 1;
+  background: var(--gold-trans);
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  padding: 9px 0;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.btn-mini-select:hover {
+  background: var(--gold);
+  color: var(--text-dark);
+}
+
+.suite-card.selected-suite {
+  border-color: var(--gold);
+  box-shadow: 0 0 15px var(--gold-glow);
+}
+
+/* ==========================================================================
+   STEP 4: DINING (LATERAL PANELS STACK SLIDE)
+   ========================================================================== */
+
+.dining-peel-container {
+  padding: 0;
+}
+
+.dining-scroll-container {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 400vw;
+  height: 100vh;
+}
+
+.horizontal-slide {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 100px 8%;
+  border-right: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.dining-intro-slide {
+  display: flex;
+  align-items: center;
+}
+
+.dining-intro-content {
+  max-width: 550px;
+}
+
+.dining-intro-content h2 {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 300;
+  margin-bottom: 22px;
+}
+
+.dining-intro-content p {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  margin-bottom: 35px;
+}
+
+.swipe-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+.swipe-hint i {
+  animation: horizontal-nudge 1.8s infinite;
+}
+
+@keyframes horizontal-nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+
+.dining-card {
+  width: 85%;
+  max-width: 580px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-luxury);
+}
+
+.dining-card img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+}
+
+.dining-card-info {
+  padding: 24px;
+  background: rgba(12, 12, 14, 0.85);
+  backdrop-filter: blur(15px);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid var(--glass-border);
+}
+
+.dining-card-info h3 {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.dining-card-info p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   STEP 5: SPA
+   ========================================================================== */
+
+.spa-bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+.spa-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+}
+
+.spa-lighting-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(12, 12, 14, 0.85) 0%, rgba(12, 12, 14, 0.45) 60%, rgba(12, 12, 14, 0.25) 100%);
+}
+
+.spa-content {
+  max-width: 600px;
+}
+
+.spa-content h2 {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 300;
+  margin-bottom: 22px;
+}
+
+.font-white {
+  color: #fff !important;
+}
+
+.font-white-faded {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+.text-max-width {
+  max-width: 520px;
+  font-size: 14.5px;
+  margin-bottom: 35px;
+}
+
+.spa-treatment-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.spa-pill {
+  font-size: 11.5px;
+  color: var(--gold-light);
+  border: 1px solid var(--gold-trans);
+  padding: 9px 18px;
+  border-radius: 20px;
+  background: rgba(197, 168, 128, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+/* ==========================================================================
+   STEP 6: MAP
+   ========================================================================== */
+
+#sec-map {
+  background-color: var(--bg-secondary);
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 6%;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.map-visual-container {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.resort-map-svg {
+  width: 100%;
+  height: auto;
+}
+
+.map-path {
+  fill: rgba(197, 168, 128, 0.04);
+  stroke: var(--gold-trans);
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.map-path:hover,
+.map-path.active-area {
+  fill: var(--gold-trans);
+  stroke: var(--gold);
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+
+.map-text {
+  font-family: var(--font-accent);
+  fill: var(--text-muted);
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  text-anchor: middle;
+}
+
+.map-info-panel h2 {
+  font-family: var(--font-serif);
+  font-size: 38px;
+  font-weight: 300;
+  margin-bottom: 18px;
+}
+
+.map-info-panel p {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  margin-bottom: 30px;
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--glass-glow);
+}
+
+.map-detail-card {
+  padding: 26px;
+}
+
+.map-detail-card h4 {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  margin-bottom: 10px;
+  color: var(--gold-light);
+}
+
+.map-detail-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 18px !important;
+}
+
+.map-area-occupancy {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.pulse-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #55b985;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(85, 185, 133, 0.4);
+  animation: pulse-green 1.6s infinite;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(85, 185, 133, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(85, 185, 133, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(85, 185, 133, 0); }
+}
+
+/* ==========================================================================
+   STEP 7: RESERVATION
+   ========================================================================== */
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 8%;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.booking-intro h2 {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 300;
+  margin-bottom: 22px;
+}
+
+.booking-intro p {
+  color: var(--text-muted);
+  font-size: 14.5px;
+  margin-bottom: 40px;
+}
+
+.luxury-guarantees {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.guarantee-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.guarantee-item i {
+  font-size: 18px;
+  color: var(--gold);
+}
+
+.booking-form-wrapper {
+  padding: 35px;
+}
+
+.booking-form-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: var(--gold-light);
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 12px;
+}
+
+.booking-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.booking-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.booking-input-group label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: "\ea4c";
+  font-family: remixicon;
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--gold);
+}
+
+#booking-suite,
+.booking-date-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  outline: none;
+  appearance: none;
+}
+
+#booking-suite:focus,
+.booking-date-input:focus {
+  border-color: var(--gold);
+}
+
+.booking-flex-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.number-stepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+}
+
+.step-btn {
+  background: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  color: var(--text-main);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.step-btn:hover {
+  color: var(--gold);
+}
+
+.number-stepper input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-main);
+  text-align: center;
+  font-size: 13.5px;
+  outline: none;
+}
+
+.addons-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.addon-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+}
+
+.addon-checkbox-label input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.custom-chk {
+  width: 16px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+}
+
+.addon-checkbox-label input:checked ~ .custom-chk {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.addon-checkbox-label input:checked ~ .custom-chk::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 3px;
+  height: 8px;
+  border: solid var(--text-dark);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.live-pricing-panel {
+  background: rgba(197, 168, 128, 0.04);
+  border: 1px solid var(--gold-trans);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.price-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.price-divider {
+  height: 1px;
+  background: var(--gold-trans);
+  margin: 10px 0;
+}
+
+.total-price {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gold-light);
+}
+
+.btn-booking-submit {
+  border: none;
+  background: var(--gold);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px var(--gold-trans);
+  transition: var(--transition-smooth);
+}
+
+.btn-booking-submit:hover {
+  background: var(--gold-light);
+}
+
+.estate-footer {
+  margin-top: 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 20px 0 0 0;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   AMBIENT CLIMATE WIDGET
+   ========================================================================== */
+
+.weather-selector-widget {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-luxury);
+}
+
+.weather-widget-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border-right: 1px solid var(--glass-border);
+  padding-right: 12px;
+}
+
+.weather-widget-header i {
+  color: var(--gold);
+}
+
+.weather-controls-row {
+  display: flex;
+  gap: 6px;
+}
+
+.weather-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.weather-btn:hover,
+.weather-btn.active {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.weather-btn.active {
+  color: var(--gold);
+}
+
+/* ==========================================================================
+   AI CONCIERGE BUTLER UI
+   ========================================================================== */
+
+#ai-concierge-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 998;
+}
+
+#ai-concierge-trigger {
+  width: 52px;
+  height: 52px;
+  background: var(--gold);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--text-dark);
+  box-shadow: 0 8px 25px rgba(197, 168, 128, 0.35);
+  position: relative;
+}
+
+.concierge-trigger-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--gold);
+  opacity: 0.5;
+  animation: radar-glow 2.5s infinite;
+}
+
+@keyframes radar-glow {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+#ai-concierge-panel {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 360px;
+  height: 460px;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(15px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+#ai-concierge-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.concierge-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.avatar-wrap {
+  width: 36px;
+  height: 36px;
+  background: var(--gold-trans);
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.avatar-letter {
+  font-family: var(--font-accent);
+  color: var(--gold-light);
+  font-size: 15px;
+}
+
+.avatar-glow {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background: #55b985;
+  border-radius: 50%;
+  border: 1.5px solid var(--bg-primary);
+}
+
+.concierge-header-info {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.concierge-header-info h4 {
+  font-size: 13.5px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.status-text {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-text span {
+  width: 4px;
+  height: 4px;
+  background-color: #55b985;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+#ai-concierge-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.concierge-chat-body {
+  flex: 1;
+  padding: 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-message {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.chat-message.concierge {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+}
+
+.chat-message.guest {
+  background: var(--gold-trans);
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+}
+
+.concierge-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 18px 12px 18px;
+  scrollbar-width: none;
+}
+
+.concierge-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.suggestion-chip {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  padding: 6px 12px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  border-radius: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.suggestion-chip:hover {
+  border-color: var(--gold);
+  background: var(--gold-trans);
+}
+
+.concierge-input-wrap {
+  padding: 12px 18px;
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  gap: 8px;
+}
+
+#concierge-text-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 8px 16px;
+  color: var(--text-main);
+  font-size: 12px;
+  outline: none;
+}
+
+#concierge-text-input:focus {
+  border-color: var(--gold);
+}
+
+#concierge-send-btn {
+  background: var(--gold-trans);
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: var(--transition-fast);
+}
+
+#concierge-send-btn:hover {
+  background: var(--gold);
+  color: var(--text-dark);
+}
+
+/* ==========================================================================
+   360 PANORAMIC VIEW MODAL
+   ========================================================================== */
+
+.pano-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 1500;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.pano-modal.open {
+  display: block;
+  opacity: 1;
+}
+
+.pano-overlay-details {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  z-index: 20;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.pano-overlay-details h2 {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.pano-overlay-details p {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+}
+
+.btn-close-pano {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.btn-close-pano:hover {
+  background: #fff;
+  color: #000;
+}
+
+.pano-canvas-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.pano-drag-target {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+  z-index: 10;
+  background-size: cover;
+  background-position: center;
+}
+
+.pano-drag-target:active {
+  cursor: grabbing;
+}
+
+.pano-hotspots-container {
+  margin-top: 25px;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pano-hotspot-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid var(--gold-trans);
+  padding: 8px 14px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 11.5px;
+  width: fit-content;
+}
+
+.pano-hotspot-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--gold);
+}
+
+/* ==========================================================================
+   BOOKING SUCCESS MODAL
+   ========================================================================== */
+
+.booking-success-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  z-index: 2000;
+  width: 90%;
+  max-width: 460px;
+  padding: 35px;
+  text-align: center;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.booking-success-modal.open {
+  display: block;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.success-icon {
+  font-size: 55px;
+  color: #55b985;
+  display: block;
+  margin-bottom: 18px;
+}
+
+.booking-success-modal h3 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+#success-room-text {
+  color: var(--gold);
+  font-size: 12.5px;
+  letter-spacing: 0.15em;
+  margin-bottom: 18px;
+}
+
+.success-dates {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 12.5px;
+  margin-bottom: 22px;
+}
+
+.success-dates i {
+  color: var(--gold);
+}
+
+.success-footer-note {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.btn-success-close {
+  background: var(--gold);
+  border: none;
+  color: var(--text-dark);
+  padding: 10px 25px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-success-close:hover {
+  background: var(--gold-light);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN MEDIA QUERIES
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .nav-glass-container { width: 95%; }
+  .grid-container { grid-template-columns: 1fr; gap: 30px; }
+  .lobby-image-side { order: -1; }
+  .image-reveal-container { height: 350px; }
+  .suite-grid { grid-template-columns: repeat(2, 1fr); gap: 25px; }
+  .dining-scroll-container { width: 400vw; }
+  .horizontal-slide { width: 100vw; }
+  .map-grid { grid-template-columns: 1fr; gap: 30px; }
+  .booking-grid { grid-template-columns: 1fr; gap: 40px; }
+  .step-indicator-bar { display: none; } /* Hide steps bar on mobile/tablet */
+}
+
+@media (max-width: 768px) {
+  .nav-menu { display: none; }
+  .mobile-menu-trigger { display: flex; }
+  .hero-title { font-size: 13vw; }
+  .suite-grid { grid-template-columns: 1fr; }
+  .booking-flex-row { grid-template-columns: 1fr; gap: 12px; }
+  #ai-concierge-panel { width: 310px; height: 420px; right: -10px; }
+  .weather-selector-widget { display: none; }
+  .vision-nav { top: 15px; }
+  .nav-glass-container { padding: 8px 16px; }
+  .story-panel { padding: 80px 6%; }
+}
+
+/* ==========================================================================
+   CINEMATIC DAY-TO-SUNSET SOLAR AMBIENCE (AWWWARDS WIDGETS)
+   ========================================================================== */
+
+#ambient-sky-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1; /* Sits behind panel screens, above interactive mesh canvas */
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Toggled on Sun Nav click */
+body.solar-active #ambient-sky-container {
+  opacity: 1;
+}
+
+body.solar-active canvas#ambient-canvas {
+  opacity: 0.15; /* soften standard canvas dots to give priority to sky */
+}
+
+/* Sky Background Gradient scrubbing values controlled by GSAP variables */
+.sky-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    var(--sky-color-top, #7bb8e7) 0%, 
+    var(--sky-color-mid, #bcd2ee) 50%, 
+    var(--sky-color-bottom, #f9dfb9) 100%);
+  transition: var(--transition-fast);
+}
+
+/* Sun Group positioning wrapper */
+.sky-sun-wrap {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  top: var(--sun-y, 15%);
+  left: var(--sun-x, 65%);
+  transform: translate(-50%, -50%);
+  will-change: top, left;
+  z-index: 2;
+}
+
+.sky-sun-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, 
+    var(--sun-glow-core, rgba(255, 245, 220, 0.35)) 0%, 
+    var(--sun-glow-outer, rgba(255, 200, 110, 0.08)) 50%, 
+    transparent 100%);
+  mix-blend-mode: screen;
+  filter: blur(15px);
+  pointer-events: none;
+}
+
+.sky-sun {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.sun-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 25px var(--sun-glow-color, rgba(255, 235, 180, 0.5)));
+}
+
+.sun-bloom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 10%, transparent 80%);
+  opacity: var(--sun-bloom-opacity, 0.45);
+  mix-blend-mode: overlay;
+}
+
+/* Rotating Volumetric Sunrays */
+.sun-volumetric-rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  animation: rotate-sunrays 90s linear infinite;
+}
+
+.sun-ray {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1200px;
+  height: 70px;
+  background: linear-gradient(to right, 
+    var(--sun-ray-inner, rgba(255, 248, 220, 0.15)) 0%, 
+    var(--sun-ray-outer, rgba(255, 210, 150, 0.01)) 60%, 
+    transparent 100%);
+  transform-origin: left center;
+  mix-blend-mode: screen;
+  opacity: var(--sun-rays-opacity, 0.7);
+}
+
+.ray-1 { transform: translate(0, -50%) rotate(0deg); }
+.ray-2 { transform: translate(0, -50%) rotate(45deg); }
+.ray-3 { transform: translate(0, -50%) rotate(90deg); }
+.ray-4 { transform: translate(0, -50%) rotate(135deg); }
+
+@keyframes rotate-sunrays {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Dynamic Lens Flare Overlay */
+.lens-flare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.flare-ghost {
+  position: fixed;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  opacity: var(--lens-flare-opacity, 0.18);
+  pointer-events: none;
+}
+
+.ghost-1 {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255, 180, 100, 0.25) 0%, transparent 70%);
+  top: calc(var(--sun-y, 15%) + 10vh);
+  left: calc(var(--sun-x, 65%) - 12vw);
+}
+
+.ghost-2 {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(100, 180, 255, 0.15) 0%, transparent 80%);
+  top: calc(var(--sun-y, 15%) + 25vh);
+  left: calc(var(--sun-x, 65%) - 30vw);
+}
+
+.ghost-3 {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(255, 235, 180, 0.3) 0%, transparent 60%);
+  top: calc(var(--sun-y, 15%) + 5vh);
+  left: calc(var(--sun-x, 65%) - 6vw);
+}
+
+/* Flapping Distant SVG Birds flock */
+.sky-birds-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.bird-flock {
+  animation: bird-flight-path 45s linear infinite;
+  transform: translate(-10vw, 15vh);
+}
+
+.bird {
+  animation: bird-wing-flap 0.7s ease-in-out infinite alternate;
+}
+
+.bird-2 { animation-delay: 0.15s; }
+.bird-3 { animation-delay: 0.3s; }
+.bird-4 { animation-delay: 0.08s; }
+
+@keyframes bird-wing-flap {
+  0% { d: path("M 50,50 Q 55,42 60,50 Q 65,42 70,50"); }
+  100% { d: path("M 50,50 Q 55,58 60,50 Q 65,58 70,50"); }
+}
+
+@keyframes bird-flight-path {
+  from { transform: translate(-20vw, 25vh) scale(0.5); }
+  to { transform: translate(110vw, 5vh) scale(0.7); }
+}
+
+/* Parallax Floating Clouds */
+.sky-clouds-wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.sky-cloud {
+  position: absolute;
+  width: 200%;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+
+.cloud-far {
+  height: 200px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255,255,255,0.06) 0%, transparent 70%);
+  bottom: 220px;
+  animation: cloud-drift 190s linear infinite;
+}
+
+.cloud-mid {
+  height: 320px;
+  background: radial-gradient(ellipse at 30% 100%, rgba(255,255,255,0.1) 0%, transparent 60%);
+  bottom: 120px;
+  animation: cloud-drift 120s linear infinite;
+}
+
+.cloud-near {
+  height: 400px;
+  background: radial-gradient(ellipse at 70% 100%, rgba(255,255,255,0.12) 0%, transparent 50%);
+  bottom: 0px;
+  animation: cloud-drift 75s linear infinite;
+}
+
+@keyframes cloud-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Parallax Mountain Horizon Outlines */
+.sky-horizon-mountains {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  z-index: 3;
+}
+
+.horizon-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.horizon-cliff {
+  transition: fill 1.2s ease;
+}
+
+.cliff-far {
+  fill: var(--cliff-far-color, #1a2230);
+  transform: translateY(var(--cliff-far-y, 0px));
+}
+
+.cliff-near {
+  fill: var(--cliff-near-color, #0f1520);
+  transform: translateY(var(--cliff-near-y, 0px));
+}
+
+.horizon-ocean {
+  fill: var(--ocean-color, #0c1825);
+  transition: fill 1.2s ease;
+}
+
+/* Shifting window reflective glare highlight overlay */
+.glass-glare-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0) 30%, 
+    var(--window-reflection-color, rgba(255, 240, 200, 0.12)) 50%, 
+    rgba(255, 255, 255, 0) 70%);
+  transform: translateX(-100%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 4;
+}
+
+/* Active buttons indicator */
+.nav-control-icon.active {
+  color: var(--gold) !important;
+  background: rgba(197, 168, 128, 0.08);
+}

@@ -1,0 +1,16 @@
+/* Night variant of the original sky; sun mode retains its existing styling. */
+.moon-scene{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity 1s ease;z-index:2}
+#moon-stars{position:absolute;inset:0;width:100%;height:100%;fill:#d9e6ff}
+#moon-orbit{position:absolute;left:65%;top:20%;width:clamp(95px,12vw,175px);aspect-ratio:1;transform:translate(-50%,-50%);will-change:transform}
+#moon-orbit::before{content:'';position:absolute;inset:-60%;border-radius:50%;background:radial-gradient(circle,rgba(143,174,242,.17),rgba(102,140,221,.04) 40%,transparent 65%)}
+#moon-orbit svg{width:100%;height:100%;position:relative;filter:drop-shadow(0 0 12px rgba(169,198,255,.25))}
+html[data-theme="night"] #ambient-sky-container{opacity:1}
+html[data-theme="night"] .moon-scene{opacity:1}
+html[data-theme="night"] .sky-sun-wrap,html[data-theme="night"] .sky-birds-container{visibility:hidden}
+html[data-theme="night"] .sky-bg{background:linear-gradient(#040815 0%,#111a36 55%,#263554 100%)}
+html[data-theme="night"] .cliff-far{fill:#172039}
+html[data-theme="night"] .cliff-near{fill:#0a1021}
+html[data-theme="night"] .horizon-ocean{fill:#0b1528}
+html[data-theme="night"] #ambient-canvas{opacity:.06}
+html[data-theme="night"] .sky-clouds-wrap{opacity:.18}
+@media(prefers-reduced-motion:reduce){.moon-scene{transition:none}#moon-orbit{will-change:auto}}

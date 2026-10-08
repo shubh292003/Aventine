@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aventine | Immersive Storytelling Luxury Experience</title>
+    
+    <!-- Meta tags for Premium SEO -->
+    <meta name="description" content="Embark on an interactive sensory journey at Aventine. Experience pinned screen card peels, architectural portals, and custom concierge assistance in an Awwwards-level storytelling suite.">
+    <meta name="keywords" content="luxury hotel, igloo design, bespoke resort, 360 room tour, award winning hotel website, premium travel, sanctuary">
+    <meta name="author" content="Aventine Resorts">
+    
+    <!-- Premium Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Cinzel:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- Core Styling -->
+    <link rel="stylesheet" href="hotel_m.css">
+    <link rel="stylesheet" href="lobby_nav.css">
+    <link rel="stylesheet" href="moon.css">
+</head>
+
+<body>
+    <!-- Luxury Spotlight & Custom Cursor -->
+    <div id="custom-cursor" class="custom-cursor"></div>
+    <div id="cursor-spotlight" class="cursor-spotlight"></div>
+    
+    <!-- Cinematic Day-to-Sunset Ambience Container -->
+    <div id="ambient-sky-container">
+        <div class="sky-bg"></div>
+        <div class="sky-sun-wrap">
+            <div class="sky-sun-glow"></div>
+            <div class="sky-sun">
+                <svg class="sun-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="48" fill="url(#sun-gradient)" />
+                    <defs>
+                        <radialGradient id="sun-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                            <stop offset="0%" stop-color="#ffffff" />
+                            <stop offset="25%" stop-color="#fff8df" />
+                            <stop offset="70%" stop-color="#ffd580" stop-opacity="0.85" />
+                            <stop offset="100%" stop-color="#ff7f50" stop-opacity="0" />
+                        </radialGradient>
+                    </defs>
+                </svg>
+                <div class="sun-bloom"></div>
+                <div class="sun-volumetric-rays">
+                    <div class="sun-ray ray-1"></div>
+                    <div class="sun-ray ray-2"></div>
+                    <div class="sun-ray ray-3"></div>
+                    <div class="sun-ray ray-4"></div>
+                </div>
+            </div>
+            <!-- Dynamic Lens Flare Overlay -->
+            <div class="lens-flare">
+                <div class="flare-ghost ghost-1"></div>
+                <div class="flare-ghost ghost-2"></div>
+                <div class="flare-ghost ghost-3"></div>
+            </div>
+        </div>
+        
+
+        <!-- Scroll-driven moon and stars for the night theme -->
+        <div class="moon-scene" aria-hidden="true">
+            <svg id="moon-stars" viewBox="0 0 1000 650" preserveAspectRatio="xMidYMid slice"></svg>
+            <div id="moon-orbit">
+                <svg viewBox="0 0 200 200">
+                    <defs>
+                        <radialGradient id="moon-light" cx="65%" cy="30%"><stop stop-color="#fffdf0"/><stop offset=".55" stop-color="#dce6f4"/><stop offset="1" stop-color="#93a9c7"/></radialGradient>
+                        <clipPath id="moon-lit-region"><path id="moon-phase-path" d="M100 10 A90 90 0 0 1 100 190 A87 90 0 0 0 100 10 Z"/></clipPath>
+                    </defs>
+                    <circle cx="100" cy="100" r="90" fill="#18233b"/>
+                    <g clip-path="url(#moon-lit-region)">
+                        <circle cx="100" cy="100" r="90" fill="url(#moon-light)"/>
+                        <g fill="#627897" opacity=".16"><circle cx="130" cy="64" r="17"/><circle cx="155" cy="112" r="12"/><circle cx="78" cy="128" r="22"/><circle cx="110" cy="152" r="9"/><circle cx="58" cy="70" r="12"/><circle cx="108" cy="40" r="7"/></g>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Distant Birds Flocking Overlay -->
+        <div class="sky-birds-container">
+            <svg class="birds-svg" viewBox="0 0 1000 400">
+                <g class="bird-flock">
+                    <path class="bird bird-1" d="M 50,50 Q 55,42 60,50 Q 65,42 70,50" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" />
+                    <path class="bird bird-2" d="M 80,70 Q 85,62 90,70 Q 95,62 100,70" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" />
+                    <path class="bird bird-3" d="M 60,90 Q 65,82 70,90 Q 75,82 80,90" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" />
+                    <path class="bird bird-4" d="M 120,60 Q 125,52 130,60 Q 135,52 140,60" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" />
+                </g>
+            </svg>
+        </div>
+
+        <!-- Parallax Floating Cloud Layers -->
+        <div class="sky-clouds-wrap">
+            <div class="sky-cloud cloud-far"></div>
+            <div class="sky-cloud cloud-mid"></div>
+            <div class="sky-cloud cloud-near"></div>
+        </div>
+
+        <!-- Horizon Mountains and Volcanic Sea -->
+        <div class="sky-horizon-mountains">
+            <svg class="horizon-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+                <path class="horizon-cliff cliff-far" d="M0,220 L180,140 L380,190 L520,110 L780,180 L920,130 L1120,200 L1280,150 L1440,210 L1440,320 L0,320 Z" />
+                <path class="horizon-cliff cliff-near" d="M0,260 L240,210 L440,250 L680,180 L880,230 L1180,190 L1440,270 L1440,320 L0,320 Z" />
+                <rect class="horizon-ocean" y="278" width="1440" height="42" />
+            </svg>
+        </div>
+    </div>
+    
+    <!-- Liquid Amber & Fluid Shader Canvas (Backdrop) -->
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- Cinematic Luxury Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="loader-content">
+            <svg class="loader-monogram" viewBox="0 0 100 100">
+                <path d="M50,15 L78,80 L22,80 Z" fill="none" stroke="var(--gold)" stroke-width="1.5" />
+                <path d="M50,15 L50,80" fill="none" stroke="var(--gold-light)" stroke-width="1" stroke-dasharray="2,2" />
+                <circle cx="50" cy="45" r="10" fill="none" stroke="var(--gold)" stroke-width="1" />
+            </svg>
+            <h1 class="loader-title">AVENTINE</h1>
+            <p class="loader-subtitle">THE STORY OF STILLNESS</p>
+            <div class="loader-progress-wrap">
+                <div class="loader-progress-bar"></div>
+            </div>
+            <div class="loader-percentage">00%</div>
+        </div>
+    </div>
+
+    <!-- VisionOS Glass Capsule Navigation Bar -->
+    <header class="vision-nav">
+        <div class="nav-glass-container">
+            <div class="nav-logo">
+                <a href="#" class="logo-link">AVENTINE</a>
+            </div>
+            
+            <nav class="nav-links-wrapper">
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#" class="nav-link js-nav-step magnetic-btn" data-target-step="0">Arrival</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link js-nav-step magnetic-btn" data-target-step="1">Lobby</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link js-nav-step magnetic-btn" data-target-step="2">Suites</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link js-nav-step magnetic-btn" data-target-step="3">Dining</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link js-nav-step magnetic-btn" data-target-step="4">Spa</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link js-nav-step magnetic-btn" data-target-step="5">Estate Map</a></li>
+                </ul>
+                <div class="nav-active-pill"></div>
+            </nav>
+
+            <div class="nav-controls">
+                <button id="sound-toggle-btn" class="nav-control-icon magnetic-btn" aria-label="Toggle Ambient Audio">
+                    <i class="ri-volume-mute-line"></i>
+                </button>
+                <button id="ambience-sun-btn" class="nav-control-icon magnetic-btn active" aria-label="Toggle Solar Ambience">
+                    <i class="ri-sun-line"></i>
+                </button>
+                <button id="theme-toggle-btn" class="nav-control-icon magnetic-btn" aria-label="Toggle Theme Mode">
+                    <i class="ri-moon-line"></i>
+                </button>
+
+                <a href="#" class="nav-booking-btn magnetic-btn js-nav-step" data-target-step="6">
+                    <span>Reserve</span>
+                </a>
+                
+                <button class="mobile-menu-trigger" aria-label="Toggle Mobile Menu">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer">
+        <div class="mobile-drawer-glass">
+            <ul class="mobile-menu-list">
+                <li><a href="#" class="mobile-link js-nav-step" data-target-step="0">The Arrival</a></li>
+                <li><a href="#" class="mobile-link js-nav-step" data-target-step="1">The Lobby</a></li>
+                <li><a href="#" class="mobile-link js-nav-step" data-target-step="2">Suites & Sanctuaries</a></li>
+                <li><a href="#" class="mobile-link js-nav-step" data-target-step="3">Bespoke Dining</a></li>
+                <li><a href="#" class="mobile-link js-nav-step" data-target-step="4">Senses Wellness</a></li>
+                <li><a href="#" class="mobile-link js-nav-step" data-target-step="5">Interactive Map</a></li>
+                <li><a href="#" class="mobile-link font-accent js-nav-step" data-target-step="6">Book Sanctuary</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Vertical Step Indexer Sidebar (Igloo.inc Style) -->
+    <aside class="step-indicator-bar">
+        <div class="step-indicator-track">
+            <div class="step-indicator-progress"></div>
+            
+            <div class="step-dot active" data-step="0">
+                <span class="step-num">01</span>
+                <span class="step-label">Arrival</span>
+            </div>
+            <div class="step-dot" data-step="1">
+                <span class="step-num">02</span>
+                <span class="step-label">Lobby</span>
+            </div>
+            <div class="step-dot" data-step="2">
+                <span class="step-num">03</span>
+                <span class="step-label">Suites</span>
+            </div>
+            <div class="step-dot" data-step="3">
+                <span class="step-num">04</span>
+                <span class="step-label">Dining</span>
+            </div>
+            <div class="step-dot" data-step="4">
+                <span class="step-num">05</span>
+                <span class="step-label">Spa</span>
+            </div>
+            <div class="step-dot" data-step="5">
+                <span class="step-num">06</span>
+                <span class="step-label">Resort Map</span>
+            </div>
+            <div class="step-dot" data-step="6">
+                <span class="step-num">07</span>
+                <span class="step-label">Reserve</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- FIXED IMMERSIVE VIEWPORT (Storytelling panels stacked here) -->
+    <div class="story-viewport">
+
+        <!-- STEP 1: CINEMATIC ARRIVAL HERO WITH CENTRAL PORTAL LENS -->
+        <section id="sec-arrival" class="story-panel active-panel">
+            <div class="hero-video-wrapper">
+                <video class="hero-video" autoplay loop muted playsinline src="https://assets.mixkit.co/videos/preview/mixkit-luxury-resort-with-swimming-pool-41584-large.mp4"></video>
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="section-content hero-content">
+                <h2 class="hero-subtitle reveal-text">SANCTUARY OF QUIET LUXURY</h2>
+                <h1 class="hero-title reveal-text-big">AVENTINE</h1>
+                
+                <div class="scroll-indicator magnetic-btn">
+                    <span class="scroll-label">Scroll to Explore</span>
+                    <div class="scroll-mouse">
+                        <span class="scroll-wheel"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-blend-bottom"></div>
+        </section>
+
+        <!-- STEP 2: THE LOBBY (PEEL LAYER 1) -->
+        <section id="sec-lobby" class="story-panel peel-panel">
+            <div class="grid-container">
+                <div class="lobby-text-side">
+                    <span class="section-badge">01. The Sacred Archways</span>
+                    <h2 class="split-words">Designed for absolute stillness.</h2>
+                    <p class="reveal-paragraph">Our lobby features high-vaulted architectural silence, constructed using native volcanic basalt stone and local warm timbers. Here, the boundaries between outside and inside dissolve into a tranquil courtyard of sensory calm.</p>
+                    <button class="btn-luxury-arrow magnetic-btn js-nav-step" data-target-step="2">
+                        <span>Explore the Sanctuaries</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </button>
+                </div>
+                <div class="lobby-image-side">
+                    <div class="image-reveal-container">
+                        <img class="reveal-img parallax-img" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80" alt="Bespoke luxury hotel lobby architecture">
+                        <span class="lobby-scroll-light" aria-hidden="true"></span>
+                        <span class="lobby-scroll-progress" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 3: SANCTUARIES & SUITES (PEEL LAYER 2) -->
+        <section id="sec-rooms" class="story-panel peel-panel">
+            <div class="suites-header">
+                <span class="section-badge">02. Private Worlds</span>
+                <h2 class="split-words">Bespoke Living Sanctuaries</h2>
+                <p>Designed with natural earth-tones, floating pavilions, private infinity pools, and round-the-clock bespoke butler care.</p>
+            </div>
+
+            <!-- Immersive Suite Grid Layout -->
+            <div class="suite-grid">
+                <!-- Suite Card 1 -->
+                <div class="suite-card magnetic-btn-hover" data-room-id="ocean-villa">
+                    <div class="suite-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=1000&q=80" alt="Ocean Sunset Villa">
+                        <div class="glass-glare"></div>
+                        <div class="suite-hover-overlay"></div>
+                    </div>
+                    <div class="suite-info">
+                        <h3>Ocean Sunset Villa</h3>
+                        <p class="suite-price">From $2,800 / night</p>
+                        <div class="suite-actions">
+                            <button class="btn-mini-explore js-open-360" data-room="ocean-villa">360° Tour</button>
+                            <button class="btn-mini-select js-select-room" data-room-name="Ocean Sunset Villa" data-room-price="2800">Select Room</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suite Card 2 -->
+                <div class="suite-card magnetic-btn-hover" data-room-id="zen-suite">
+                    <div class="suite-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80" alt="Zen Forest Sanctuary">
+                        <div class="glass-glare"></div>
+                        <div class="suite-hover-overlay"></div>
+                    </div>
+                    <div class="suite-info">
+                        <h3>Zen Forest Sanctuary</h3>
+                        <p class="suite-price">From $2,100 / night</p>
+                        <div class="suite-actions">
+                            <button class="btn-mini-explore js-open-360" data-room="zen-suite">360° Tour</button>
+                            <button class="btn-mini-select js-select-room" data-room-name="Zen Forest Sanctuary" data-room-price="2100">Select Room</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suite Card 3 -->
+                <div class="suite-card magnetic-btn-hover" data-room-id="royal-penthouse">
+                    <div class="suite-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1000&q=80" alt="Presidential Penthouse">
+                        <div class="glass-glare"></div>
+                        <div class="suite-hover-overlay"></div>
+                    </div>
+                    <div class="suite-info">
+                        <h3>Aventine Penthouse</h3>
+                        <p class="suite-price">From $5,500 / night</p>
+                        <div class="suite-actions">
+                            <button class="btn-mini-explore js-open-360" data-room="royal-penthouse">360° Tour</button>
+                            <button class="btn-mini-select js-select-room" data-room-name="Aventine Penthouse" data-room-price="5500">Select Room</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 4: MICHELIN DINING (PEEL LAYER 3 - LATERAL PANELS SLIDER) -->
+        <section id="sec-dining" class="story-panel peel-panel dining-peel-container">
+            <div class="dining-scroll-container">
+                <!-- Dining Slide 1 (Intro) -->
+                <div class="dining-intro-slide horizontal-slide">
+                    <div class="dining-intro-content">
+                        <span class="section-badge">03. Culinary Rituals</span>
+                        <h2 class="split-words">A Symphony of Earth and Sea</h2>
+                        <p>Our Michelin-endorsed culinary spots transform local organic produce into visual and gastronomic art. Tap into fine dining overlooking oceanside volcanic horizons.</p>
+                        <div class="swipe-hint">
+                            <i class="ri-arrow-right-line"></i> <span>Drag horizontally or scroll</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dining Slide 2 -->
+                <div class="dining-gallery-slide horizontal-slide">
+                    <div class="dining-card">
+                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80" alt="Nectar Ocean Restaurant">
+                        <div class="dining-card-info">
+                            <h3>Nectar Restaurant</h3>
+                            <p>Oceanside table hosting locally-caught bluefin and aged micro-greens.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dining Slide 3 -->
+                <div class="dining-gallery-slide horizontal-slide">
+                    <div class="dining-card">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="The Obsidian Grill Plates">
+                        <div class="dining-card-info">
+                            <h3>Obsidian Grill</h3>
+                            <p>Smoked delicacies cooked over volcanic firewood ovens.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dining Slide 4 -->
+                <div class="dining-gallery-slide horizontal-slide">
+                    <div class="dining-card">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80" alt="Vintage Reserve Wine Cellar">
+                        <div class="dining-card-info">
+                            <h3>The Reserve Cellar</h3>
+                            <p>Private candle-lit vault hosting over 2,000 vintage wines from across the globe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 5: SPA SANCTUARY (PEEL LAYER 4 - BLUR ACCENTS) -->
+        <section id="sec-spa" class="story-panel peel-panel">
+            <div class="spa-bg-container">
+                <img class="spa-bg-img blur-load" src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1920&q=80" alt="Luxury Spa Wellness Treatment Room">
+                <div class="spa-lighting-mask"></div>
+            </div>
+            
+            <div class="section-content spa-content">
+                <span class="section-badge gold-text">04. The Senses Sanctuary</span>
+                <h2 class="split-words font-white">Dissolve Into Pure Rest</h2>
+                <p class="font-white-faded text-max-width">Submerge in hot thermal mineral waters and steam baths. Our signature remedies use mountain lavender oil, basalt salt stones, and organic coconut elixirs to heal, recalibrate, and renew.</p>
+                <div class="spa-treatment-pills">
+                    <span class="spa-pill">Volcanic Stone Therapy</span>
+                    <span class="spa-pill">Sound Bath Meditation</span>
+                    <span class="spa-pill">Thermal Springs Detox</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 6: INTERACTIVE BLUEPRINT RESORT MAP (PEEL LAYER 5) -->
+        <section id="sec-map" class="story-panel peel-panel">
+            <div class="map-grid">
+                <div class="map-visual-container">
+                    <svg id="hotel-map-svg" viewBox="0 0 800 500" class="resort-map-svg">
+                        <rect width="800" height="500" fill="transparent"/>
+                        <circle cx="400" cy="250" r="230" fill="none" stroke="var(--gold-trans)" stroke-width="1" stroke-dasharray="5,5"/>
+                        <circle cx="400" cy="250" r="150" fill="none" stroke="var(--gold-trans)" stroke-width="1" stroke-dasharray="10,10"/>
+                        
+                        <!-- West Wing Pavilion -->
+                        <path id="wing-west" class="map-path" d="M120,220 L280,180 L290,260 L140,310 Z" />
+                        <text x="180" y="240" class="map-text">West Suites</text>
+                        
+                        <!-- Central Lobby -->
+                        <path id="wing-lobby" class="map-path" d="M320,160 L480,160 L480,290 L320,290 Z" />
+                        <text x="375" y="235" class="map-text">Great Lobby</text>
+                        
+                        <!-- East Spa Wing -->
+                        <path id="wing-spa" class="map-path" d="M520,180 L680,220 L660,310 L510,260 Z" />
+                        <text x="560" y="240" class="map-text">Spa Sanctuary</text>
+                        
+                        <!-- Waterfront Overwater Villas -->
+                        <path id="wing-villas" class="map-path" d="M250,370 L550,370 L520,430 L280,430 Z" stroke-dasharray="5,2"/>
+                        <text x="360" y="405" class="map-text">Water Villas</text>
+                    </svg>
+                </div>
+                
+                <div class="map-info-panel">
+                    <span class="section-badge">05. The Estate Map</span>
+                    <h2>Interactive Resort Blueprint</h2>
+                    <p>Hover over the areas of our luxury map to examine operational occupancy, design highlights, and direct room shortcuts.</p>
+                    
+                    <div id="map-detail-card" class="map-detail-card glass-panel">
+                        <h4 id="map-area-title">Select an area on the map</h4>
+                        <p id="map-area-desc">Discover the bespoke spaces of Aventine Estate by interacting with the map paths.</p>
+                        <div class="map-area-occupancy">
+                            <span class="pulse-indicator"></span>
+                            <span id="map-area-status">Awaiting selection</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STEP 7: BOOKING SANCTUARY (PEEL LAYER 6) -->
+        <section id="sec-booking" class="story-panel peel-panel">
+            <div class="booking-grid">
+                <div class="booking-intro">
+                    <span class="section-badge">06. Embark on the Journey</span>
+                    <h2 class="split-words">Secure Your Sanctuary</h2>
+                    <p>Experience absolute harmony. Your luxury stay includes full butler care, airport transfer in carbon-neutral private vehicles, and full access to thermal pool lounges.</p>
+                    
+                    <div class="luxury-guarantees">
+                        <div class="guarantee-item">
+                            <i class="ri-shield-user-line"></i>
+                            <span>Bespoke 1-on-1 Butler Service</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <i class="ri-sparkling-2-line"></i>
+                            <span>All-Inclusive Wellness Thermal Access</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <i class="ri-car-line"></i>
+                            <span>Complimentary Helicopter or Limousine Transfer</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating Glassmorphism Booking Panel -->
+                <div class="booking-form-wrapper glass-panel">
+                    <h3 class="booking-form-title">Reservation Registry</h3>
+                    
+                    <div class="booking-form-body">
+                        <!-- Suite Selector -->
+                        <div class="booking-input-group">
+                            <label for="booking-suite">Bespoke Suite Choice</label>
+                            <div class="select-wrapper">
+                                <select id="booking-suite">
+                                    <option value="2800" selected>Ocean Sunset Villa ($2,800/night)</option>
+                                    <option value="2100">Zen Forest Sanctuary ($2,100/night)</option>
+                                    <option value="5500">Aventine Penthouse ($5,500/night)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Date Pickers -->
+                        <div class="booking-flex-row">
+                            <div class="booking-input-group">
+                                <label for="check-in">Arrival Date</label>
+                                <input type="date" id="check-in" class="booking-date-input" value="2026-07-18">
+                            </div>
+                            <div class="booking-input-group">
+                                <label for="check-out">Departure Date</label>
+                                <input type="date" id="check-out" class="booking-date-input" value="2026-07-21">
+                            </div>
+                        </div>
+                        
+                        <!-- Guests selection -->
+                        <div class="booking-flex-row">
+                            <div class="booking-input-group">
+                                <label for="booking-guests">Adults</label>
+                                <div class="number-stepper">
+                                    <button class="step-btn btn-minus" type="button">-</button>
+                                    <input type="number" id="booking-guests" value="2" min="1" max="6" readonly>
+                                    <button class="step-btn btn-plus" type="button">+</button>
+                                </div>
+                            </div>
+                            <div class="booking-input-group">
+                                <label for="booking-children">Children</label>
+                                <div class="number-stepper">
+                                    <button class="step-btn btn-minus" type="button">-</button>
+                                    <input type="number" id="booking-children" value="0" min="0" max="4" readonly>
+                                    <button class="step-btn btn-plus" type="button">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add-on Luxuries -->
+                        <div class="booking-input-group">
+                            <label>Bespoke Add-Ons</label>
+                            <div class="addons-grid">
+                                <label class="addon-checkbox-label">
+                                    <input type="checkbox" id="addon-spa" value="450">
+                                    <span class="custom-chk"></span>
+                                    <span>Private Spa Ritual (+$450)</span>
+                                </label>
+                                <label class="addon-checkbox-label">
+                                    <input type="checkbox" id="addon-heli" value="1200">
+                                    <span class="custom-chk"></span>
+                                    <span>Helicopter Arrival (+$1,200)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Live Pricing Breakdown -->
+                        <div class="live-pricing-panel">
+                            <div class="price-line">
+                                <span>Base Suite Rate (<span id="calc-nights">3</span> nights):</span>
+                                <span id="calc-base-price">$8,400</span>
+                            </div>
+                            <div class="price-line">
+                                <span>Selected Add-Ons:</span>
+                                <span id="calc-addons-price">$0</span>
+                            </div>
+                            <div class="price-divider"></div>
+                            <div class="price-line total-price">
+                                <span>Estimated Total:</span>
+                                <span id="calc-total-price">$8,400</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="button" class="btn-booking-submit magnetic-btn" id="confirm-booking-btn">
+                            <span class="btn-bg-glow"></span>
+                            <span class="btn-label">Confirm Reservation Registry</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="estate-footer">
+                <p>&copy; 2026 Aventine Resort Est. | Built for Awwards Immersive Luxury Experiences.</p>
+            </footer>
+        </section>
+        
+    </div>
+
+    <!-- AI CONCIERGE ASSISTANT -->
+    <div id="ai-concierge-container">
+        <!-- Concierge Button -->
+        <button id="ai-concierge-trigger" class="magnetic-btn" aria-label="Open AI Concierge Butler">
+            <div class="concierge-trigger-glow"></div>
+            <i class="ri-customer-service-2-line"></i>
+        </button>
+        
+        <!-- Chat Panel -->
+        <div id="ai-concierge-panel" class="glass-panel">
+            <div class="concierge-header">
+                <div class="avatar-wrap">
+                    <div class="avatar-glow"></div>
+                    <span class="avatar-letter">A</span>
+                </div>
+                <div class="concierge-header-info">
+                    <h4>Aventine Concierge</h4>
+                    <p class="status-text"><span></span> Online Butler</p>
+                </div>
+                <button id="ai-concierge-close" aria-label="Close Chat"><i class="ri-close-line"></i></button>
+            </div>
+            
+            <div class="concierge-chat-body" id="concierge-chat-log">
+                <div class="chat-message concierge">
+                    <p>Good afternoon. I am your bespoke butler at Aventine. How may I refine your stay or organize custom activities today?</p>
+                </div>
+            </div>
+            
+            <!-- Quick Suggestion Chips -->
+            <div class="concierge-chips">
+                <button class="suggestion-chip">Book Helicopter Arrival</button>
+                <button class="suggestion-chip">Arrange Yacht Cruise</button>
+                <button class="suggestion-chip">Pillow Menu Options</button>
+                <button class="suggestion-chip">Spa Wellness Bookings</button>
+            </div>
+            
+            <div class="concierge-input-wrap">
+                <input type="text" id="concierge-text-input" placeholder="Inquire about transfers, dining, pillow list..." aria-label="Inquire to butler">
+                <button id="concierge-send-btn" aria-label="Send Inquiry"><i class="ri-send-plane-2-line"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMMERSIVE 360 PANORAMIC VIEW MODAL -->
+    <div id="pano-modal" class="pano-modal">
+        <div class="pano-overlay-details">
+            <h2 id="pano-room-title">Ocean Sunset Villa</h2>
+            <p>Click & Drag to explore the suite environment</p>
+            <div class="pano-hotspots-container" id="pano-hotspots">
+                <!-- Dynamic Hotspots will render here -->
+            </div>
+        </div>
+        <button class="btn-close-pano" id="close-pano-btn" aria-label="Exit Panorama">
+            <i class="ri-close-line"></i>
+        </button>
+        <div class="pano-canvas-container" id="pano-canvas-container">
+            <!-- Smooth dragging dynamic panoramic viewer -->
+            <div class="pano-drag-target" id="pano-drag-target"></div>
+        </div>
+    </div>
+
+    <!-- Success Confirmation Booking Popover Modal -->
+    <div id="booking-success-modal" class="booking-success-modal glass-panel">
+        <i class="ri-checkbox-circle-fill success-icon"></i>
+        <h3>Reservation Registered</h3>
+        <p id="success-room-text">Ocean Sunset Villa</p>
+        <div class="success-dates">
+            <span id="success-in-date">2026-07-18</span> <i class="ri-arrow-right-line"></i> <span id="success-out-date">2026-07-21</span>
+        </div>
+        <p class="success-footer-note">Our head butler will contact you within 2 hours to confirm your customized airport transfer.</p>
+        <button class="btn-success-close magnetic-btn" id="close-success-modal-btn">Return to Sanctuary</button>
+    </div>
+
+    <!-- Background Ambient Audio Element (Sound Track) -->
+    <audio id="ambient-audio-player" loop preload="none" src="assets/aventine-soft-ambient.wav"></audio>
+
+    <!-- CORE DEPENDENCIES -->
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Lenis Smooth Scrolling -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- Interactive Logic scripts -->
+    <script src="hotel_m.js"></script>
+    <script src="hotel_gsap.js"></script>
+    <script src="moon.js"></script>
+</body>
+
+</html>
